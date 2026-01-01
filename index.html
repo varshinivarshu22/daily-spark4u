@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Varshu's Daily Spark ✨</title>
+    <style>
+        body { 
+            font-family: Arial, sans-serif; 
+            text-align: center; 
+            padding: 20px 10px; 
+            background-color: #f0f8ff; 
+            transition: background-color 0.5s; 
+            margin: 0;
+        }
+        .greeting { 
+            color: #ff69b4; 
+            font-size: 2.8em; 
+            margin: 20px 0; 
+            font-weight: bold;
+        }
+        .photo-container {
+            position: relative;
+            display: inline-block;
+            margin: 30px 0;
+        }
+        .daily-photo { 
+            width: 1111px; 
+            height: 1111px; 
+            max-width: 95vw; 
+            max-height: 95vw; 
+            border-radius: 20px; 
+            object-fit: cover; 
+            box-shadow: 0 0 40px rgba(255,105,180,0.8);
+        }
+        .heart-border {
+            position: absolute;
+            top: -40px; left: -40px; right: -40px; bottom: -40px;
+            background-image: url('https://png.pngtree.com/background/20250131/original/pngtree-aesthetic-pink-heart-border-frame-picture-image_15550537.jpg');
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            pointer-events: none;
+        }
+        .message { 
+            font-size: 1.6em; 
+            color: #333; 
+            max-width: 90%; 
+            margin: 40px auto; 
+            line-height: 1.6; 
+        }
+        .birthday { background-color: #fff0f5 !important; }
+        .festival { background-color: #fffacd; }
+        @media (max-width: 1200px) {
+            .greeting { font-size: 2.2em; }
+            .message { font-size: 1.4em; }
+        }
+    </style>
+</head>
+<body>
+    <div class="greeting">Hey! Beautiful<br>Here's your Daily Spark Varshu ✨</div>
+
+    <div class="photo-container">
+        <img id="dailyPhoto" src="" alt="Varshu's Beautiful Smile ❤️" class="daily-photo">
+        <div class="heart-border"></div>
+    </div>
+
+    <p id="message" class="message">Loading your special message...</p>
+
+    <script>
+        const photoCount = 30;
+        const today = new Date();
+
+        // Get month and day (01-05 for January 5)
+        const month = String(today.getMonth() + 1).padStart(2, '0');
+        const day = String(today.getDate()).padStart(2, '0');
+        const dateKey = `${month}-${day}`;
+
+        let photoUrl = '';
+
+        // === SPECIAL RULE: On her birthday (Jan 5), ALWAYS show photo06.jpg ===
+        if (dateKey === '01-05') {
+            photoUrl = 'https://raw.githubusercontent.com/varshinivarshu22/daily-spark/main/photo06.jpg';
+        } else {
+            // Normal daily rotation for all other days
+            const dayOfYear = Math.floor((today - new Date(today.getFullYear(), 0, 0)) / 86400000);
+            const photoIndex = (dayOfYear % photoCount) + 1; // 1 to 30
+            const photoNumber = String(photoIndex).padStart(2, '0'); // 01 to 30
+            photoUrl = `https://raw.githubusercontent.com/varshinivarshu22/daily-spark/main/photo${photoNumber}.jpg`;
+        }
+
+        // Set the photo
+        document.getElementById('dailyPhoto').src = photoUrl;
+
+        // Messages (birthday message also personalized)
+        const specialDates = {
+            '01-05': { type: 'birthday', message: '🎉 Happy Birthday, my love Varshu! 🎂🎈\nToday is all about YOU—may this year overflow with joy, laughter, dreams coming true, and endless love. You are my everything! 💖🥳' },
+            '01-14': { type: 'festival', message: 'Happy Makar Sankranti / Pongal! May the sun bring you warmth, prosperity, and new beginnings. Have a sweet and joyful day!' },
+            '01-23': { type: 'festival', message: 'Happy Vasant Panchami! Let knowledge and creativity bloom in your life like spring flowers. Shine bright today!' },
+            '02-15': { type: 'festival', message: 'Happy Maha Shivaratri! Find peace, strength, and transformation. Wishing you a powerful and serene day!' },
+            '03-03': { type: 'festival', message: 'Happy Holika Dahan! Let go of negativity and welcome positivity with open arms.' },
+            '03-04': { type: 'festival', message: 'Happy Holi! Play with colors of joy, love, and happiness. Have a vibrant day!' },
+            '03-19': { type: 'festival', message: 'Happy Ugadi / Gudi Padwa! New year, new hopes—embrace fresh beginnings!' },
+            '03-27': { type: 'festival', message: 'Happy Ramanavami! Draw courage and goodness into your day.' },
+            '04-02': { type: 'festival', message: 'Happy Hanuman Jayanti! Strength and devotion will help you conquer anything!' },
+            '04-14': { type: 'festival', message: 'Happy Baisakhi / Vishu! Celebrate renewal and abundance.' },
+            '08-26': { type: 'festival', message: 'Happy Onam! Prosperity and togetherness fill your day!' },
+            '08-28': { type: 'festival', message: 'Happy Raksha Bandhan! Feel the protection and love of those who care.' },
+            '09-04': { type: 'festival', message: 'Happy Krishna Janmashtami! Let playfulness and wisdom guide you.' },
+            '09-14': { type: 'festival', message: 'Happy Ganesh Chaturthi! Remove obstacles and welcome success!' },
+            '10-20': { type: 'festival', message: 'Happy Dussehra! Good triumphs—celebrate your inner strength!' },
+            '11-08': { type: 'festival', message: 'Happy Diwali! Lights of joy and prosperity illuminate your world!' },
+            '11-11': { type: 'festival', message: 'Happy Bhai Dooj! Bonds of love and support surround you.' }
+        };
+
+        const generalMessages = [
+            'Have a wonderful day, Varshu! You make the world brighter just by being you. 🌟',
+            'Smile big today—good things are coming your way! 😊',
+            'You are strong, capable, and loved. Conquer the day! 💪❤️',
+            'Enjoy every moment—life is beautiful with you in it. 🌸',
+            'Believe in yourself—you\'ve got this! ✨',
+            'Spread kindness today—it always comes back. 💕',
+            'Take a deep breath and shine—you deserve happiness! 🌅',
+            'Today is full of possibilities. Make it amazing! 🚀',
+            'You are treasured. Have a peaceful and joyful day. 🕊️',
+            'Keep going—you inspire everyone around you! 🌟'
+        ];
+
+        let message = '';
+        let pageClass = '';
+
+        const special = specialDates[dateKey];
+        if (special) {
+            if (special.type === 'birthday') {
+                message = special.message;
+                pageClass = 'birthday';
+            } else {
+                message = special.message;
+                pageClass = 'festival';
+            }
+        } else {
+            const randomIndex = Math.floor(Math.random() * generalMessages.length);
+            message = generalMessages[randomIndex];
+        }
+
+        document.getElementById('message').textContent = message;
+        if (pageClass) document.body.classList.add(pageClass);
+    </script>
+</body>
+</html>
