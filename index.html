@@ -71,28 +71,26 @@
         const photoCount = 30;
         const today = new Date();
 
-        // Get month and day (01-05 for January 5)
         const month = String(today.getMonth() + 1).padStart(2, '0');
         const day = String(today.getDate()).padStart(2, '0');
         const dateKey = `${month}-${day}`;
 
         let photoUrl = '';
 
-        // === SPECIAL RULE: On her birthday (Jan 5), ALWAYS show photo06.jpg ===
+        // On birthday (Jan 5), always show photo06.png
         if (dateKey === '01-05') {
-            photoUrl = 'https://raw.githubusercontent.com/varshinivarshu22/daily-spark/main/photo06.jpg';
+            photoUrl = 'https://raw.githubusercontent.com/varshinivarshu22/daily-spark4u/main/photo06.png';
         } else {
-            // Normal daily rotation for all other days
+            // Normal rotation for other days
             const dayOfYear = Math.floor((today - new Date(today.getFullYear(), 0, 0)) / 86400000);
-            const photoIndex = (dayOfYear % photoCount) + 1; // 1 to 30
-            const photoNumber = String(photoIndex).padStart(2, '0'); // 01 to 30
-            photoUrl = `https://raw.githubusercontent.com/varshinivarshu22/daily-spark/main/photo${photoNumber}.jpg`;
+            const photoIndex = (dayOfYear % photoCount) + 1;
+            const photoNumber = String(photoIndex).padStart(2, '0');
+            photoUrl = `https://raw.githubusercontent.com/varshinivarshu22/daily-spark4u/main/photo${photoNumber}.png`;
         }
 
-        // Set the photo
         document.getElementById('dailyPhoto').src = photoUrl;
 
-        // Messages (birthday message also personalized)
+        // Messages
         const specialDates = {
             '01-05': { type: 'birthday', message: '🎉 Happy Birthday, my love Varshu! 🎂🎈\nToday is all about YOU—may this year overflow with joy, laughter, dreams coming true, and endless love. You are my everything! 💖🥳' },
             '01-14': { type: 'festival', message: 'Happy Makar Sankranti / Pongal! May the sun bring you warmth, prosperity, and new beginnings. Have a sweet and joyful day!' },
