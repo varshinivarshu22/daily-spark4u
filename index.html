@@ -20,7 +20,6 @@
             font-weight: bold;
         }
         .photo-container {
-            position: relative;
             display: inline-block;
             margin: 30px 0;
         }
@@ -29,18 +28,9 @@
             height: 1111px; 
             max-width: 95vw; 
             max-height: 95vw; 
-            border-radius: 20px; 
+            border-radius: 30px; 
             object-fit: cover; 
-            box-shadow: 0 0 40px rgba(255,105,180,0.8);
-        }
-        .heart-border {
-            position: absolute;
-            top: -40px; left: -40px; right: -40px; bottom: -40px;
-            background-image: url('https://png.pngtree.com/background/20250131/original/pngtree-aesthetic-pink-heart-border-frame-picture-image_15550537.jpg');
-            background-size: contain;
-            background-repeat: no-repeat;
-            background-position: center;
-            pointer-events: none;
+            box-shadow: 0 0 60px rgba(255, 105, 180, 0.7); /* Soft pink glow only */
         }
         .message { 
             font-size: 1.6em; 
@@ -62,7 +52,6 @@
 
     <div class="photo-container">
         <img id="dailyPhoto" src="" alt="Varshu's Beautiful Smile ❤️" class="daily-photo">
-        <div class="heart-border"></div>
     </div>
 
     <p id="message" class="message">Loading your special message...</p>
@@ -75,22 +64,22 @@
         const day = String(today.getDate()).padStart(2, '0');
         const dateKey = `${month}-${day}`;
 
+        // === Photo Logic ===
         let photoUrl = '';
-
-        // On birthday (Jan 5), always show photo06.png
         if (dateKey === '01-05') {
             photoUrl = 'https://raw.githubusercontent.com/varshinivarshu22/daily-spark4u/main/photo06.png';
         } else {
-            // Normal rotation for other days
             const dayOfYear = Math.floor((today - new Date(today.getFullYear(), 0, 0)) / 86400000);
             const photoIndex = (dayOfYear % photoCount) + 1;
             const photoNumber = String(photoIndex).padStart(2, '0');
             photoUrl = `https://raw.githubusercontent.com/varshinivarshu22/daily-spark4u/main/photo${photoNumber}.png`;
         }
-
         document.getElementById('dailyPhoto').src = photoUrl;
 
-        // Messages
+        // === Message Logic - Same message all day ===
+        let selectedMessage = '';
+
+        // Check if today is a special date first
         const specialDates = {
             '01-05': { type: 'birthday', message: '🎉 Happy Birthday, my love Varshu! 🎂🎈\nToday is all about YOU—may this year overflow with joy, laughter, dreams coming true, and endless love. You are my everything! 💖🥳' },
             '01-14': { type: 'festival', message: 'Happy Makar Sankranti / Pongal! May the sun bring you warmth, prosperity, and new beginnings. Have a sweet and joyful day!' },
@@ -124,25 +113,19 @@
             'Keep going—you inspire everyone around you! 🌟'
         ];
 
-        let message = '';
-        let pageClass = '';
-
         const special = specialDates[dateKey];
         if (special) {
-            if (special.type === 'birthday') {
-                message = special.message;
-                pageClass = 'birthday';
-            } else {
-                message = special.message;
-                pageClass = 'festival';
-            }
+            selectedMessage = special.message;
+            if (special.type === 'birthday') document.body.classList.add('birthday');
+            else document.body.classList.add('festival');
         } else {
-            const randomIndex = Math.floor(Math.random() * generalMessages.length);
-            message = generalMessages[randomIndex];
+            // Same general message all day: use dayOfYear as seed
+            const dayOfYear = Math.floor((today - new Date(today.getFullYear(), 0, 0)) / 86400000);
+            const messageIndex = dayOfYear % generalMessages.length;
+            selectedMessage = generalMessages[messageIndex];
         }
 
-        document.getElementById('message').textContent = message;
-        if (pageClass) document.body.classList.add(pageClass);
+        document.getElementById('message').textContent = selectedMessage;
     </script>
 </body>
 </html>
